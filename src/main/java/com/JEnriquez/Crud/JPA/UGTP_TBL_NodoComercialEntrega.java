@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity @Getter @Setter
-public class NodoComercialEntrega {
+public class UGTP_TBL_NodoComercialEntrega {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

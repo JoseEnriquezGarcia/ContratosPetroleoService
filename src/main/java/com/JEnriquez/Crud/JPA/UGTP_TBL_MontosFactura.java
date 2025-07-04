@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity @Getter @Setter
-public class MontosFactura {
+public class UGTP_TBL_MontosFactura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idmontosfactura")
@@ -19,11 +19,11 @@ public class MontosFactura {
     
     @JoinColumn(name = "idtarifadetalle")
     @OneToOne
-    public TarifaDetalle tarifaDetalle;
+    public UGTP_TBL_TarifaDetalle tarifaDetalle;
     
     @JoinColumn(name = "idcantidaddetalle")
     @OneToOne
-    public CantidadDetalle cantidadDetalle;
+    public UGTP_TBL_CantidadDetalle cantidadDetalle;
     
     @Column(name = "gasexceso")
     private double GasExceso;

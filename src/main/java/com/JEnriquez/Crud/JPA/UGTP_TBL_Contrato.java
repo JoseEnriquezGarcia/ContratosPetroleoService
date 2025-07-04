@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity @Getter @Setter
-public class Contrato {
+public class UGTP_TBL_Contrato {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcontrato")
@@ -20,7 +20,7 @@ public class Contrato {
     
     @JoinColumn(name = "idusuario")
     @OneToMany
-    public List<Usuario> IdUsuario;
+    public List<UGTP_TBL_Usuario> IdUsuario;
     
     @Column(name = "clavecontrato")
     private String ClaveContrato;

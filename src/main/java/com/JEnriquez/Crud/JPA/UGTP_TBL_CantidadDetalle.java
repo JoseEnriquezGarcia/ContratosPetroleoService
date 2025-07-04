@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity @Getter @Setter
-public class CantidadDetalle {
+public class UGTP_TBL_CantidadDetalle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcantidaddetalle")

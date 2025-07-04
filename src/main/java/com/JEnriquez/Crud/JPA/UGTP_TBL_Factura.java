@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity @Getter @Setter
-public class Factura {
+public class UGTP_TBL_Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idfactura")
@@ -26,27 +26,27 @@ public class Factura {
     
     @JoinColumn(name = "idnodocomercialrecepcion")
     @OneToMany
-    public List<NodoComercialRecepcion> nodoComercialRecepcion;
+    public List<UGTP_TBL_NodoComercialRecepcion> nodoComercialRecepcion;
     
     @JoinColumn(name = "idnodocomercialentrega")
     @OneToMany
-    public List<NodoComercialEntrega> nodoComercialEntrega;
+    public List<UGTP_TBL_NodoComercialEntrega> nodoComercialEntrega;
     
     @JoinColumn(name = "zonatarifainyeccion")
     @OneToMany
-    public List<Zona> zonaTarifaInyecion;
+    public List<UGTP_TBL_Zona> zonaTarifaInyecion;
     
     @JoinColumn(name = "zonatarifaextraccion")
     @OneToMany
-    public List<Zona> zonaTarifaExtraccion;
+    public List<UGTP_TBL_Zona> zonaTarifaExtraccion;
     
     @JoinColumn(name = "idcontrato")
     @OneToOne
-    public Contrato contrato;
+    public UGTP_TBL_Contrato contrato;
     
     @JoinColumn(name = "idmontofactura")
     @OneToOne
-    public MontosFactura montoFactura;
+    public UGTP_TBL_MontosFactura montoFactura;
     
     @Column(name = "totalfactura")
     private double TotalFactura;

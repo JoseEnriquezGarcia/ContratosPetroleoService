@@ -9,12 +9,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity @Getter @Setter
-public class Zona {
+public class UGTP_TBL_Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idzona")
-    private int IdZona;
+    @Column(name = "idusuario")
+    private int IdUsuario;
     
-    @Column(name = "zonaclave")
-    private String ZonaClave;
+    @Column(name = "nombre")
+    private String Nombre;
 }

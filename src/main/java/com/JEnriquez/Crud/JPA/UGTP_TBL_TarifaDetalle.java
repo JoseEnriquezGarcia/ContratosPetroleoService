@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity @Getter @Setter
-public class TarifaDetalle {
+public class UGTP_TBL_TarifaDetalle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idtarifadetalle")

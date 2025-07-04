@@ -8,13 +8,16 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity @Getter @Setter
-public class Usuario {
+@Entity
+@Getter
+@Setter
+public class UGTP_TBL_Zona {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idusuario")
-    private int IdUsuario;
-    
-    @Column(name = "nombre")
-    private String Nombre;
+    @Column(name = "idzona")
+    private int IdZona;
+
+    @Column(name = "zonaclave")
+    private String ZonaClave;
 }
