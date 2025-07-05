@@ -2,13 +2,16 @@ package com.JEnriquez.Crud.RestController;
 
 import com.JEnriquez.Crud.DAO.IZonaDAO;
 import com.JEnriquez.Crud.JPA.Result;
+import com.JEnriquez.Crud.JPA.UGTP_TBL_Contrato;
+import com.JEnriquez.Crud.JPA.UGTP_TBL_NodoComercialEntrega;
+import com.JEnriquez.Crud.JPA.UGTP_TBL_NodoComercialRecepcion;
 import com.JEnriquez.Crud.JPA.UGTP_TBL_Zona;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.apache.poi.ss.usermodel.Cell;
+import java.util.Set;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -37,11 +40,11 @@ public class CargaMasivaRestController {
             String absolutePath = root + "/" + path + "/" + "/" + archivo.getOriginalFilename();
             archivo.transferTo(new File(absolutePath));
 
-            List<UGTP_TBL_Zona> listaZonas = new ArrayList<>();
+            List<UGTP_TBL_NodoComercialRecepcion> listaNodoRecepcion = new ArrayList<>();
 
-            listaZonas = lecturaArchivoExcel(new File(absolutePath));
+            listaNodoRecepcion = lecturaArchivoExcel(new File(absolutePath));
 
-            procesar(listaZonas);
+//            procesar(listaNodoRecepcion);
             result.correct = true;
         } else {
             result.correct = false;
@@ -55,10 +58,9 @@ public class CargaMasivaRestController {
         try {
             List<UGTP_TBL_Zona> listaZona = new ArrayList<>();
             listaZona = listaZonas;
-            
-            for (UGTP_TBL_Zona zona : listaZonas) {
-                iZonaDAO.save(zona);
-            }
+
+            iZonaDAO.saveAll(listaZona);
+
             result.correct = true;
             return ResponseEntity.ok(result);
         } catch (Exception ex) {
@@ -67,38 +69,74 @@ public class CargaMasivaRestController {
         }
     }
 
-    public List<UGTP_TBL_Zona> lecturaArchivoExcel(File archivo) {
-        List<String> listZonas = new ArrayList<>();
-        List<String> listaZonasFiltradas = new ArrayList<>();
-        List<UGTP_TBL_Zona> listaZonaSinDuplicados = new ArrayList<>();
+    public List<UGTP_TBL_NodoComercialRecepcion> lecturaArchivoExcel(File archivo) {
+        Set<String> contratoUnico = new HashSet<>();
+        Set<String> nodoUnicoRecepcion = new HashSet<>();
+        Set<String> nodoUnicoEntrega = new HashSet<>();
+        Set<String> zonaUnico = new HashSet<>();
+
+        List<UGTP_TBL_NodoComercialRecepcion> listaNodosRecepcion = new ArrayList<>();
+        List<UGTP_TBL_NodoComercialEntrega> listaNodosEntrega = new ArrayList<>();
+        List<UGTP_TBL_Zona> listaZonas = new ArrayList<>();
+        List<UGTP_TBL_Contrato> listaContratos = new ArrayList<>();
+
         try (XSSFWorkbook woorkbook = new XSSFWorkbook(archivo)) {
             for (Sheet sheet : woorkbook) {
                 for (Row row : sheet) {
                     if (row.getRowNum() == 0) {
                         continue;
                     }
-                    for (Cell cell : row) {
-                        listZonas.add(cell.toString());
+                    
+                    UGTP_TBL_NodoComercialRecepcion nodoComercialRecepcion = new UGTP_TBL_NodoComercialRecepcion();
+                    String nodoRecepcionNombre = row.getCell(3).getStringCellValue();
+
+                    if (!nodoUnicoRecepcion.contains(nodoRecepcionNombre)) {
+                        nodoUnicoRecepcion.add(nodoRecepcionNombre);
+                        nodoComercialRecepcion.setClaveNodo(nodoRecepcionNombre);
+                        nodoComercialRecepcion.setDescripcion(row.getCell(4).toString());
+                        listaNodosRecepcion.add(nodoComercialRecepcion);
+                    }
+
+                    UGTP_TBL_NodoComercialEntrega nodoEntregaComercial = new UGTP_TBL_NodoComercialEntrega();
+                    String nodoEntregaNombre = row.getCell(5).getStringCellValue();
+
+                    if (!nodoUnicoEntrega.contains(nodoEntregaNombre)) {
+                        nodoUnicoEntrega.add(nodoEntregaNombre);
+                        nodoEntregaComercial.setClaveNodo(nodoEntregaNombre);
+                        nodoEntregaComercial.setDescipcion(row.getCell(6).toString());
+                        listaNodosEntrega.add(nodoEntregaComercial);
+                    }
+
+                    UGTP_TBL_Zona zona = new UGTP_TBL_Zona();
+                    String zonaInyeccion = row.getCell(7).getStringCellValue();
+                    String zonaExtraccion = row.getCell(8).getStringCellValue();
+
+                    if (!zonaUnico.contains(zonaInyeccion)) {
+                        zonaUnico.add(zonaInyeccion);
+                        zona.setZonaClave(zonaInyeccion);
+                        listaZonas.add(zona);
+
+                    } else if (!zonaUnico.contains(zonaExtraccion)) {
+                        zonaUnico.add(zonaExtraccion);
+                        zona.setZonaClave(zonaExtraccion);
+                        listaZonas.add(zona);
+                    }
+
+                    UGTP_TBL_Contrato contrato = new UGTP_TBL_Contrato();
+                    String contratoClave = row.getCell(1).getStringCellValue();
+
+                    if (!contratoUnico.contains(contratoClave)) {
+                        contratoUnico.add(contratoClave);
+                        contrato.setClaveContrato(contratoClave);
+                        listaContratos.add(contrato);
                     }
                 }
             }
 
-            listaZonasFiltradas = listZonas.stream()
-                    .distinct()
-                    .sorted()
-                    .collect(Collectors.toList());
-
-            //Guarda las zonas
-            for (String zonas : listaZonasFiltradas) {
-                UGTP_TBL_Zona zona = new UGTP_TBL_Zona();
-                zona.setZonaClave(zonas);
-                listaZonaSinDuplicados.add(zona);
-            }
-
         } catch (Exception ex) {
-
+            listaNodosRecepcion = null;
         }
-        return listaZonaSinDuplicados;
+        return listaNodosRecepcion;
     }
 
 }
