@@ -1,8 +1,10 @@
 package com.JEnriquez.Crud.DAO;
 
-import com.JEnriquez.Crud.JPA.UGTP_TBL_NodoComercialRecepcion;
+import com.JEnriquez.Crud.JPA.NodoComercialRecepcion;
+import com.JEnriquez.Crud.JPA.Zona;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface INodoComercialRecepcionDAO extends JpaRepository<UGTP_TBL_NodoComercialRecepcion, Integer>{
+public interface INodoComercialRecepcionDAO extends JpaRepository<NodoComercialRecepcion, Integer>{
     
 }

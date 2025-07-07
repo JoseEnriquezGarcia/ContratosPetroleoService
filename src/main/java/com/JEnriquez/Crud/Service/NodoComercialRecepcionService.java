@@ -2,7 +2,7 @@ package com.JEnriquez.Crud.Service;
 
 import com.JEnriquez.Crud.DAO.INodoComercialRecepcionDAO;
 import com.JEnriquez.Crud.JPA.Result;
-import com.JEnriquez.Crud.JPA.UGTP_TBL_NodoComercialRecepcion;
+import com.JEnriquez.Crud.JPA.NodoComercialRecepcion;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ public class NodoComercialRecepcionService {
     @Autowired
     INodoComercialRecepcionDAO iNodoComercialRecepcionDAO;
 
-    public Result AddNodoComercialRecepcion(List<UGTP_TBL_NodoComercialRecepcion> nodoComercialRecepcion) {
+    public Result AddNodoComercialRecepcion(List<NodoComercialRecepcion> nodoComercialRecepcion) {
         Result result = new Result();
 
         try {

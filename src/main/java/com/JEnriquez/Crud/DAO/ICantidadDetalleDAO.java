@@ -1,8 +1,8 @@
-package com.JEnriquez.Crud.DAO;
-
-import com.JEnriquez.Crud.JPA.UGTP_TBL_CantidadDetalle;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface ICantidadDetalleDAO extends JpaRepository<UGTP_TBL_CantidadDetalle, Integer>{
-    
-}
+//package com.JEnriquez.Crud.DAO;
+//
+//import com.JEnriquez.Crud.JPA.CantidadDetalle;
+//import org.springframework.data.jpa.repository.JpaRepository;
+//
+//public interface ICantidadDetalleDAO extends JpaRepository<CantidadDetalle, Integer>{
+//    
+//}
