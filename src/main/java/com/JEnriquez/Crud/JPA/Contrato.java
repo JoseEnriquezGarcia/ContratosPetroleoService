@@ -7,10 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity @Getter @Setter
+@Table(name = "UGTP_TBL_Contrato")
 public class Contrato {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +25,12 @@ public class Contrato {
     
     @JoinColumn(name = "idnodocomercialrecepcion")
     @ManyToOne
-    public NodoComercialRecepcion IdnodoComercialRecepcion;
+    public NodoComercialRecepcion nodoComercialRecepcion;
     
     @JoinColumn(name = "idnodocomercialentrega")
     @ManyToOne
-    public NodoComercialEntrega IdnodoComercialEntrega;
+    public NodoComercialEntrega nodoComercialEntrega;
     
     @Column(name = "clavecontrato")
-    private String ClaveContrato;
+    private String claveContrato;
 }

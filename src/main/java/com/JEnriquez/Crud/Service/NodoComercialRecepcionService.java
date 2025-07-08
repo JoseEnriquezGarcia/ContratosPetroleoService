@@ -15,7 +15,6 @@ public class NodoComercialRecepcionService {
 
     public Result AddNodoComercialRecepcion(List<NodoComercialRecepcion> nodoComercialRecepcion) {
         Result result = new Result();
-
         try {
             iNodoComercialRecepcionDAO.saveAll(nodoComercialRecepcion);
             result.correct = true;
@@ -24,6 +23,21 @@ public class NodoComercialRecepcionService {
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
         }
+        return result;
+    }
+
+    public Result GetNodoRecepcionByClaveNodo(String claveNodo) {
+        Result result = new Result();
+        try {
+            NodoComercialRecepcion nodoRecepcion = iNodoComercialRecepcionDAO.findByclaveNodo(claveNodo).orElseThrow();
+            result.object = nodoRecepcion.getIdNodo();
+            result.correct = true;
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+
         return result;
     }
 }

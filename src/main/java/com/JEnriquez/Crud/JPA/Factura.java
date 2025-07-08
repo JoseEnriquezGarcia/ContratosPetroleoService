@@ -6,13 +6,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.util.Date;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity @Getter @Setter
+@Table(name = "UGTP_TBL_Factura")
 public class Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +21,8 @@ public class Factura {
     private int IdFactura;
     
     @JoinColumn(name = "idcontrato")
-    @OneToMany
-    public List<Contrato> contrato;
+    @ManyToOne
+    public Contrato contrato;
     
     @Column(name = "fecha")
     private Date Fecha;

@@ -6,12 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import java.util.List;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity @Getter @Setter
+@Table(name = "UGTP_TBL_Nodocomercialentrega")
 public class NodoComercialEntrega {
     
     @Id
@@ -20,11 +21,11 @@ public class NodoComercialEntrega {
     private int IdNodo;
     
     @JoinColumn(name = "idzonatarifaextraccion")
-    @OneToMany
-    private List<Zona> IdZonaTarifaExtraccion;
+    @ManyToOne
+    public Zona zona;
     
     @Column(name = "clavenodo")
-    private String ClaveNodo;
+    private String claveNodo;
     
     @Column(name = "descripcion")
     private String Descipcion;
