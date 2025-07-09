@@ -39,6 +39,8 @@ public class ZonaTestMockito {
         Assertions.assertNull(result.objects, "result.objects viene null");
         Assertions.assertNull(result.ex, "result.ex contiene una excepción");
         Assertions.assertNull(result.errorMessage, "result.errorMessage contiene un mensaje de error");
+        
+        Mockito.verify(iZonaDAO, Mockito.atLeast(1)).findByzonaClave("Zona 1");
     }
     
     @Test
@@ -60,6 +62,6 @@ public class ZonaTestMockito {
         Assertions.assertNull(result.ex, "result.ex contiene una excepción");
         Assertions.assertNull(result.errorMessage, "result.errorMessage contiene un mensaje de error");
         
-//        Mockito.verify(iZonaDAO, Mo)
+        Mockito.verify(iZonaDAO, Mockito.atLeast(1)).saveAll(zonas);
     }
 }

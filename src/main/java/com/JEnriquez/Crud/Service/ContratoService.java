@@ -39,4 +39,17 @@ public class ContratoService {
         }
         return result;
     }
+
+    public Result GetContratoByUsuario(String nombre) {
+        Result result = new Result();
+        try {
+            result.objects = iContratoDAO.findByusuario(nombre);
+            result.correct = true;
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        return result;
+    }
 }
