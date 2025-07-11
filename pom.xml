@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.JEnriquez</groupId>
-    <artifactId>ContratosPetroleo</artifactId>
+    <artifactId>ContratosPetroleoService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ContratosPetroleo</name>
+    <name>ContratosPetroleoService</name>
     <description>Crud Usuarios</description>
     <url/>
     <licenses>

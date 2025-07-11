@@ -28,5 +28,5 @@ public class NodoComercialEntrega {
     private String claveNodo;
     
     @Column(name = "descripcion")
-    private String Descipcion;
+    private String Descripcion;
 }

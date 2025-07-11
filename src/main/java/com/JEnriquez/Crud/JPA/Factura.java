@@ -1,5 +1,6 @@
 package com.JEnriquez.Crud.JPA;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,10 +19,11 @@ public class Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idfactura")
-    private int IdFactura;
+    private int idFactura;
     
     @JoinColumn(name = "idcontrato")
     @ManyToOne
+    @JsonIgnoreProperties("facturas")
     public Contrato contrato;
     
     @Column(name = "fecha")

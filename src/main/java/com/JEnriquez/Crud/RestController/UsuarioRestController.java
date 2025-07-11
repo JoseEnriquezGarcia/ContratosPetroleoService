@@ -1,63 +1,62 @@
 package com.JEnriquez.Crud.RestController;
 
-import com.JEnriquez.Crud.DAO.IContratoDAO;
+import com.JEnriquez.Crud.DAO.IUsuarioDAO;
 import com.JEnriquez.Crud.JPA.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/contrato")
-public class ContratoRestController {
-
+@RequestMapping("/usuario")
+public class UsuarioRestController {
+    
     @Autowired
-    private IContratoDAO iContratoDAO;
-
+    private IUsuarioDAO iUsuarioDAO;
+    
     @GetMapping
-    public ResponseEntity GetAllContrato() {
+    public ResponseEntity GetUsuario(){
         Result result = new Result();
         try {
-            result.objects = iContratoDAO.findAll();
+            result.objects = iUsuarioDAO.findAll();
             result.correct = true;
         } catch (Exception ex) {
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
         }
-        if (result.correct) {
-            if (result.objects.isEmpty()) {
+        if(result.correct){
+            if(result.objects.isEmpty()){
                 return ResponseEntity.noContent().build();
-            } else {
-                return ResponseEntity.ok().body(result);
+            }else{
+                return ResponseEntity.ok(result);
             }
-        } else {
+        }else{
             return ResponseEntity.internalServerError().body(result.errorMessage);
         }
     }
-
-    @GetMapping("/getContratoByUsuario")
-    public ResponseEntity GetContratoByUsuario(@RequestParam String nombreUsuario) {
+    
+    @GetMapping("/byId/{IdUsuario}")
+    public ResponseEntity GetUsuarioContratoById(@PathVariable int IdUsuario){
         Result result = new Result();
         try {
-            result.objects = iContratoDAO.findByusuario(nombreUsuario);
+            result.object = iUsuarioDAO.findById(IdUsuario).orElseThrow();
             result.correct = true;
         } catch (Exception ex) {
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
         }
-
-        if (result.correct = true) {
-            if (result.objects.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            } else {
+        if(result.correct){
+            if(result.object != null){
                 return ResponseEntity.ok(result);
+            }else{
+                return ResponseEntity.noContent().build();
             }
-        } else {
-            return ResponseEntity.badRequest().body(result.errorMessage);
+        }else{
+            return ResponseEntity.internalServerError().body(result.errorMessage);
         }
     }
 }

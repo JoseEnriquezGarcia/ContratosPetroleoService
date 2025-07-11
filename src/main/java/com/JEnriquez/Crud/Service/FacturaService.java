@@ -9,10 +9,24 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FacturaService {
+
     @Autowired
     private IFacturaDAO iFacturaDAO;
-    
-    public Result AddFactura(List<Factura> facturas){
+
+    public Result GetAll() {
+        Result result = new Result();
+        try {
+            result.objects = iFacturaDAO.GetAll();
+            result.correct = true;
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        return result;
+    }
+
+    public Result AddFactura(List<Factura> facturas) {
         Result result = new Result();
         try {
             iFacturaDAO.saveAll(facturas);

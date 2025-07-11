@@ -29,7 +29,7 @@ public class NodoComercialEntregaTest {
         NodoComercialEntrega nodoEntrega = new NodoComercialEntrega();
         nodoEntrega.setIdNodo(1);
         nodoEntrega.setClaveNodo("HGJJ04");
-        nodoEntrega.setDescipcion("BB");
+        nodoEntrega.setDescripcion("BB");
         nodoEntrega.zona = new Zona();
 
         Mockito.when(iNodoComercialEntregaDAO.findByclaveNodo("HGJJ04")).thenReturn(Optional.of(nodoEntrega));
@@ -51,7 +51,7 @@ public class NodoComercialEntregaTest {
         NodoComercialEntrega nodoEntrega = new NodoComercialEntrega();
         nodoEntrega.setIdNodo(1);
         nodoEntrega.setClaveNodo("HGJJ04");
-        nodoEntrega.setDescipcion("BB");
+        nodoEntrega.setDescripcion("BB");
         nodoEntrega.zona = new Zona();
         nodosEntrega.add(nodoEntrega);
         

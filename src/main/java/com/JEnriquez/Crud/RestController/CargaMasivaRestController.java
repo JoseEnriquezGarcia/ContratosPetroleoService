@@ -190,7 +190,7 @@ public class CargaMasivaRestController {
                         NodoComercialEntrega nodoEntregaComercial = new NodoComercialEntrega();
                         nodoUnicoEntrega.add(nodoEntregaNombre);
                         nodoEntregaComercial.setClaveNodo(nodoEntregaNombre);
-                        nodoEntregaComercial.setDescipcion(row.getCell(6).toString());
+                        nodoEntregaComercial.setDescripcion(row.getCell(6).toString());
                         nodoEntregaComercial.zona = new Zona();
                         nodoEntregaComercial.zona.setZonaClave(row.getCell(8).getStringCellValue());
                         resultCargaMasiva.listaNodosEntrega.add(nodoEntregaComercial);

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.query.Procedure;
 
 public interface IFacturaDAO extends JpaRepository<Factura, Integer> {
 
-    @Procedure(refCursor = true, outputParameterName = "", procedureName = "GetAll")
-    List<Factura> facturas();
+    @Procedure(refCursor = true, procedureName = "GetAll")
+    List<Factura> GetAll();
 }
