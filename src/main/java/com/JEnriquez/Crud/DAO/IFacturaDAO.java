@@ -9,4 +9,5 @@ public interface IFacturaDAO extends JpaRepository<Factura, Integer> {
 
     @Procedure(refCursor = true, procedureName = "GetAll")
     List<Factura> GetAll();
+    
 }
