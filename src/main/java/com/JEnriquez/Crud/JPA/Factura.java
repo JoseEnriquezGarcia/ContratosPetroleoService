@@ -1,5 +1,6 @@
 package com.JEnriquez.Crud.JPA;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,7 +28,7 @@ public class Factura {
     public Contrato contrato;
     
     @Column(name = "fecha")
-    private Date Fecha;
+    private Date fecha;
     
     @Column(name = "cantidadnominadarecepcion")
     private double NominadaRecepcion;

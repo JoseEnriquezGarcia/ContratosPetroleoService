@@ -4,7 +4,7 @@ import com.JEnriquez.Crud.DAO.IFacturaDAO;
 import com.JEnriquez.Crud.JPA.Factura;
 import com.JEnriquez.Crud.JPA.Result;
 import jakarta.transaction.Transactional;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -74,24 +74,83 @@ public class FacturaRestController {
             return ResponseEntity.badRequest().body(result.errorMessage);
         }
     }
-
+    
+    @GetMapping("/getByFecha")
+    public ResponseEntity GetByFecha(@RequestParam String Desde, @RequestParam String Hasta){
+        Result result = new Result();
+        try {
+            String fechaDesde = Desde;
+            SimpleDateFormat formatoDesde = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date dateUtilDesde = formatoDesde.parse(fechaDesde);
+            
+            String fechaHasta = Hasta;
+            SimpleDateFormat formatoHasta = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date dateUtilHasta = formatoHasta.parse(fechaHasta);
+            
+            result.objects = iFacturaDAO.findByFechaBetween(dateUtilDesde, dateUtilHasta);
+            result.correct = true;
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        if(result.correct){
+            if(!result.objects.isEmpty()){
+                return ResponseEntity.ok().body(result);
+            }else{
+                return ResponseEntity.noContent().build();
+            }
+        }else{
+            return ResponseEntity.internalServerError().body(result.errorMessage);
+        }
+    }
+    
     @PostMapping("/busquedaService")
     public ResponseEntity BusquedaDinamica(@RequestBody Factura factura) {
-        Result<Factura>result = new Result();
-        Result<Factura>resultBusqueda = new Result();
+        Result<Factura> result = new Result();
         try {
             result.objects = iFacturaDAO.findAll();
-            resultBusqueda.objects = new ArrayList<>();
-            
-            result.objects = result.objects.stream()
-                    .map(f -> (Factura) f)
-                    .filter(f -> 
-                            f.contrato.getClaveContrato().toUpperCase().contains(factura.contrato.getClaveContrato().toUpperCase())
-                    )
-                    .collect(Collectors.toList());
-//            () -> System.out.println("");
+
+            if (!factura.contrato.getClaveContrato().equals("0")) {
+                result.objects = result.objects.stream()
+                        .map(c -> (Factura) c)
+                        .filter(c -> c.contrato.getClaveContrato().toUpperCase().contains(factura.contrato.getClaveContrato().toUpperCase()))
+                        .collect(Collectors.toList());
+            }
+            if (!factura.contrato.usuario.getNombre().equals("0")) {
+                result.objects = result.objects.stream()
+                        .map(u -> (Factura) u)
+                        .filter(u -> u.contrato.usuario.getNombre().toUpperCase().contains(factura.contrato.usuario.getNombre().toUpperCase()))
+                        .collect(Collectors.toList());
+            }
+            if (!factura.contrato.nodoComercialRecepcion.getClaveNodo().equals("0")) {
+                result.objects = result.objects.stream()
+                        .map(n -> (Factura) n)
+                        .filter(n -> n.contrato.nodoComercialRecepcion.getClaveNodo().toUpperCase().contains(factura.contrato.nodoComercialRecepcion.getClaveNodo().toUpperCase()))
+                        .collect(Collectors.toList());
+            }
+            if (!factura.contrato.nodoComercialEntrega.getClaveNodo().equals("0")) {
+                result.objects = result.objects.stream()
+                        .map(n -> (Factura) n)
+                        .filter(n -> n.contrato.nodoComercialEntrega.getClaveNodo().toUpperCase().contains(factura.contrato.nodoComercialEntrega.getClaveNodo()))
+                        .collect(Collectors.toList());
+            }
+
+            result.correct = true;
         } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
         }
-        return null;
+
+        if (result.correct) {
+            if (!result.objects.isEmpty()) {
+                return ResponseEntity.ok().body(result);
+            } else {
+                return ResponseEntity.noContent().build();
+            }
+        } else {
+            return ResponseEntity.internalServerError().body(result.errorMessage);
+        }
     }
 }
