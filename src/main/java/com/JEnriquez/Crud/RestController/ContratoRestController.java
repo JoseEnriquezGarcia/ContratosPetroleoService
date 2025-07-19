@@ -3,6 +3,7 @@ package com.JEnriquez.Crud.RestController;
 import com.JEnriquez.Crud.DAO.IContratoDAO;
 import com.JEnriquez.Crud.JPA.Contrato;
 import com.JEnriquez.Crud.JPA.Result;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,26 +64,62 @@ public class ContratoRestController {
             return ResponseEntity.badRequest().body(result.errorMessage);
         }
     }
-    
+
     @PostMapping("/busquedaContratoService")
-    public ResponseEntity BusquedaContratos(@RequestBody Contrato contrato){
-        Result result = new Result();
+    public ResponseEntity BusquedaContratos(@RequestBody Contrato contrato) {
+        Result<Contrato> result = new Result();
         try {
             result.objects = iContratoDAO.findAll();
+            if (!contrato.getClaveContrato().equals("0")) {
+                result.objects = result.objects.stream()
+                        .map(c -> (Contrato) c)
+                        .filter(c -> c.getClaveContrato().toUpperCase().contains(contrato.getClaveContrato().toUpperCase()))
+                        .collect(Collectors.toList());
+            }
+            if (!contrato.usuario.getNombre().equals("0")) {
+                result.objects = result.objects.stream()
+                        .map(u -> (Contrato) u)
+                        .filter(u -> u.usuario.getNombre().toUpperCase().contains(contrato.usuario.getNombre().toUpperCase()))
+                        .collect(Collectors.toList());
+            }
+            if (!contrato.nodoComercialRecepcion.getClaveNodo().equals("0")) {
+                result.objects = result.objects.stream()
+                        .map(n -> (Contrato) n)
+                        .filter(n -> n.nodoComercialRecepcion.getClaveNodo().toUpperCase().contains(contrato.nodoComercialRecepcion.getClaveNodo().toUpperCase()))
+                        .collect(Collectors.toList());
+            }
+            if (!contrato.nodoComercialEntrega.getClaveNodo().equals("0")) {
+                result.objects = result.objects.stream()
+                        .map(n -> (Contrato) n)
+                        .filter(n -> n.nodoComercialEntrega.getClaveNodo().toUpperCase().contains(contrato.nodoComercialEntrega.getClaveNodo().toUpperCase()))
+                        .collect(Collectors.toList());
+            }
+            if (!contrato.nodoComercialRecepcion.zona.getZonaClave().equals("0")) {
+                result.objects = result.objects.stream()
+                        .map(z -> (Contrato) z)
+                        .filter(z -> z.nodoComercialRecepcion.zona.getZonaClave().toUpperCase().contains(contrato.nodoComercialRecepcion.zona.getZonaClave().toUpperCase()))
+                        .collect(Collectors.toList());
+            }
+            if (!contrato.nodoComercialEntrega.zona.getZonaClave().equals("0")) {
+                result.objects = result.objects.stream()
+                        .map(z -> (Contrato) z)
+                        .filter(z -> z.nodoComercialEntrega.zona.getZonaClave().toUpperCase().contains(contrato.nodoComercialEntrega.zona.getZonaClave().toUpperCase()))
+                        .collect(Collectors.toList());
+            }
             result.correct = true;
         } catch (Exception ex) {
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
         }
-        
-        if(result.correct){
-            if(!result.objects.isEmpty()){
+
+        if (result.correct) {
+            if (!result.objects.isEmpty()) {
                 return ResponseEntity.ok().body(result);
-            }else{
+            } else {
                 return ResponseEntity.noContent().build();
             }
-        }else{
+        } else {
             return ResponseEntity.internalServerError().body(result.errorMessage);
         }
     }

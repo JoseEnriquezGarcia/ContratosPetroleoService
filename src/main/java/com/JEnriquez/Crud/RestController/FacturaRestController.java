@@ -135,7 +135,19 @@ public class FacturaRestController {
                         .filter(n -> n.contrato.nodoComercialEntrega.getClaveNodo().toUpperCase().contains(factura.contrato.nodoComercialEntrega.getClaveNodo()))
                         .collect(Collectors.toList());
             }
-
+            
+            if (!factura.contrato.nodoComercialRecepcion.zona.getZonaClave().equals("0")) {
+                result.objects = result.objects.stream()
+                        .map(z -> (Factura) z)
+                        .filter(z -> z.contrato.nodoComercialRecepcion.zona.getZonaClave().toUpperCase().contains(factura.contrato.nodoComercialRecepcion.zona.getZonaClave().toUpperCase()))
+                        .collect(Collectors.toList());
+            }
+            if (!factura.contrato.nodoComercialEntrega.zona.getZonaClave().equals("0")) {
+                result.objects = result.objects.stream()
+                        .map(z -> (Factura) z)
+                        .filter(z -> z.contrato.nodoComercialEntrega.zona.getZonaClave().toUpperCase().contains(factura.contrato.nodoComercialEntrega.zona.getZonaClave().toUpperCase()))
+                        .collect(Collectors.toList());
+            }
             result.correct = true;
         } catch (Exception ex) {
             result.correct = false;
