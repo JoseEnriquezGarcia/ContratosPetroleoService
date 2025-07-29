@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
@@ -23,10 +24,23 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idusuario")
     private int IdUsuario;
-
+    
+    @Column(name = "username")
+    private String username;
+    
     @Column(name = "nombre")
     private String nombre;
-    
+
+    @Column(name = "estatus")
+    private int Estatus;
+
+    @Column(name = "password")
+    private String Password;
+
+    @JoinColumn(name = "idrol")
+    @ManyToOne
+    public Rol rol;
+
     @JoinColumn(name = "idusuario")
     @OneToMany
     @JsonIgnoreProperties("usuario")
