@@ -11,4 +11,6 @@ public class Result<T> {
     public List<T> objects;
     public int currentPage;
     public int statusCode;
+    public int totalPages;
+    public long totalElementos;
 }

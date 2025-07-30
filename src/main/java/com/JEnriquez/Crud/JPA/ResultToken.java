@@ -6,4 +6,5 @@ public class ResultToken {
     public boolean correct;
     public String Bearer;
     public String Expiration;
+    public String rol;
 }

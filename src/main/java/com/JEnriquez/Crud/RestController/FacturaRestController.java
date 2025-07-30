@@ -58,6 +58,35 @@ public class FacturaRestController {
         }
     }
 
+    @GetMapping("/GetByUsername")
+    public ResponseEntity GetAllByUsername(@RequestParam(defaultValue = "0") int numeroPagina, @RequestParam String Username, @RequestParam(defaultValue = "50") int tamanio) {
+        Result result = new Result();
+        Pageable pageable = PageRequest.of(numeroPagina, tamanio);
+
+        try {
+            Page<Factura> pageFactura = iFacturaDAO.findByUsername(Username, pageable);
+            result.objects = pageFactura.getContent();
+            result.currentPage = pageFactura.getNumber();
+            result.totalPages = pageFactura.getTotalPages();
+            result.totalElementos = pageFactura.getTotalElements();
+            result.correct = true;
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        
+        if (result.correct == true) {
+            if (result.objects.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.ok(result);
+            }
+        } else {
+            return ResponseEntity.badRequest().body(result.errorMessage);
+        }
+    }
+
     @GetMapping("/byId/{IdFactura}")
     public ResponseEntity GetFacturaById(@PathVariable int IdFactura) {
         Result result = new Result();
