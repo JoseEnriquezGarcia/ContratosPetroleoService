@@ -32,7 +32,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                 .requestMatchers(HttpMethod.POST, "/auth/Authlogin/**").permitAll()
                 .requestMatchers("factura/**").hasAnyAuthority("Cliente")
-                .requestMatchers("usuario/**").hasAnyAuthority("Administrador")
+//                .requestMatchers("usuario/**").hasAnyAuthority("Administrador")
                 .anyRequest().authenticated())
                 .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
